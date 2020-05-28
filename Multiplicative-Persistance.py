@@ -111,12 +111,14 @@ class Population:
 if __name__ == "__main__":
     best = [2, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9]
 
-    pop = Population(rand=True, popSize=10000)
+    pop = Population(rand=True, popSize=1000)
 
-    for i in range (0,5):
+    for i in range (0,50):
         #pop = Population(rand=True, popSize=100)
-        print("gen: ", i, "- best: " , pop.maximum, " answer: ", str(pop.best))
+        print("gen:", i, "-> best:" , pop.maximum, "|| answer: ", end="")
+        print(*sorted(pop.best.genome), sep='')
         pop = pop.makeNext()
 
-    print(bestanswer, sep='')
+    BEST = sorted(bestanswer)
+    print(*BEST, sep='')
     print(bestscore)
