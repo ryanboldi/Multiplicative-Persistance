@@ -3,18 +3,19 @@ import functools
 import random
 import math
 
-Mut_Rate = 0.1
+Mut_Rate = 0.5
 
 Digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+length = 10
 
 bestscore = 0
-bestanswer = None
+bestanswer = []
 
 class Answer:
     # 15 digits
     def __init__(self, genes=None, rand=False):
         if rand:
-            self.genome = [random.choice(Digits) for i in range(0, 15)]
+            self.genome = [random.choice(Digits) for i in range(0, length)]
         else:
             self.genome = genes
         self.fitness = 0
@@ -29,9 +30,15 @@ class Answer:
         
         global bestscore
         global bestanswer
-        if score > bestscore:
-            bestscore = score
-            bestanswer = self.genome
+        if score >= bestscore:
+            if (sorted(self.genome) < sorted(bestanswer)):
+                bestscore = score
+                bestanswer = self.genome
+            elif (score > bestscore):
+                bestscore = score
+                bestanswer = self.genome
+            
+
         self.fitness = score
         return score
 
@@ -113,7 +120,7 @@ if __name__ == "__main__":
 
     pop = Population(rand=True, popSize=1000)
 
-    for i in range (0,50):
+    for i in range (0,500):
         #pop = Population(rand=True, popSize=100)
         print("gen:", i, "-> best:" , pop.maximum, "|| answer: ", end="")
         print(*sorted(pop.best.genome), sep='')
